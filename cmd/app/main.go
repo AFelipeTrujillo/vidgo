@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"os"
 
+	"github.com/AFelipeTrujillo/vidgo/internal/Infrastructure/Delivery/Console"
 	"github.com/spf13/cobra"
 )
 
@@ -15,5 +17,9 @@ func main() {
 		},
 	}
 
-	rootCmd.Execute()
+	rootCmd.AddCommand(Console.NewClipCommand())
+
+	if err := rootCmd.Execute(); err != nil {
+		os.Exit(1)
+	}
 }
