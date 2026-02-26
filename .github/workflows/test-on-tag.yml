@@ -1,0 +1,27 @@
+name: Test on Tag
+
+on:
+  push:
+    tags:
+      - 'v*' # Trigger on any tag starting with 'v' (e.g., v1.0.0)
+
+jobs:
+  test:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+          cache: true
+
+      - name: Install dependencies
+        run: go mod download
+
+      - name: Run Unit Tests
+        run: go test -v ./tests/Unit/...
