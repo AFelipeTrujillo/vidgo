@@ -7,6 +7,7 @@ import (
 	"github.com/AFelipeTrujillo/vidgo/internal/Application/DTO"
 	"github.com/AFelipeTrujillo/vidgo/internal/Application/UseCase"
 	"github.com/AFelipeTrujillo/vidgo/internal/Domain/Entity"
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
@@ -31,6 +32,8 @@ func TestCreateClipUseCase_Execute_Success(t *testing.T) {
 	res, err := useCase.Execute(ctx, req)
 
 	assert.NoError(t, err)
+	_, err = uuid.Parse(dummyVideo.ID)
+	assert.NoError(t, err, "The video ID should be a valid UUID")
 	assert.True(t, res.Success)
 	assert.Equal(t, "out.mp4", res.OutputPath)
 	mockProcessor.AssertExpectations(t)
