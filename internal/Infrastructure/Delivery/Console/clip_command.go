@@ -33,7 +33,7 @@ func NewClipCommand() *cobra.Command {
 				return
 			}
 
-			fmt.Printf("✅ %s Saved to: %s\n", res.Message, res.OutputPath)
+			fmt.Printf("%s Saved to: %s\n", res.Message, res.OutputPath)
 
 		},
 	}
