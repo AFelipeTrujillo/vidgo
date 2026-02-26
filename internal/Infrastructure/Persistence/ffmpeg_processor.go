@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/AFelipeTrujillo/vidgo/internal/Domain/Entity"
+	"github.com/tidwall/gjson"
 	ffmpeg_go "github.com/u2takey/ffmpeg-go"
 )
 
@@ -16,13 +17,21 @@ func NewFFmpegProcessor() *FFmpegProcessor {
 }
 
 func (p *FFmpegProcessor) GetMetadata(ctx context.Context, file_path string) (*Entity.Video, error) {
-	_, err := ffmpeg_go.Probe(file_path)
+	data, err := ffmpeg_go.Probe(file_path)
 
 	if err != nil {
 		return nil, fmt.Errorf("ffmpeg probe failed: %w", err)
 	}
 
-	return Entity.NewVideo("id-123", file_path, "mp4", 0), nil
+	total_duration_str := gjson.Get(data, "format.duration").String()
+	total_duration, err := strconv.ParseFloat(total_duration_str, 64)
+	if err != nil {
+		return nil, fmt.Errorf("ffmpeg probe failed: %w", err)
+	}
+
+	format_name := gjson.Get(data, "format.format_name").String()
+
+	return Entity.NewVideo(file_path, format_name, total_duration), nil
 }
 
 func (p *FFmpegProcessor) Trim(ctx context.Context, clip *Entity.Clip) error {

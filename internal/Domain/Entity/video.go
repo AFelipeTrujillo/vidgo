@@ -1,5 +1,7 @@
 package Entity
 
+import "github.com/google/uuid"
+
 type Video struct {
 	ID                string
 	FilePath          string
@@ -7,9 +9,9 @@ type Video struct {
 	DurationInSeconds float64
 }
 
-func NewVideo(id, file_path, format string, duration_in_seconds float64) *Video {
+func NewVideo(file_path, format string, duration_in_seconds float64) *Video {
 	return &Video{
-		ID:                id,
+		ID:                uuid.NewString(),
 		FilePath:          file_path,
 		Format:            format,
 		DurationInSeconds: duration_in_seconds,

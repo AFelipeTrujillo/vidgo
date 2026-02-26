@@ -16,7 +16,7 @@ func TestCreateClipUseCase_Execute_Success(t *testing.T) {
 	useCase := UseCase.NewCreateClipUseCase(mockProcessor)
 	ctx := context.Background()
 
-	dummyVideo := Entity.NewVideo("1", "input.mp4", "mp4", 60.0)
+	dummyVideo := Entity.NewVideo("input.mp4", "mp4", 60.0)
 
 	mockProcessor.On("GetMetadata", ctx, "input.mp4").Return(dummyVideo, nil)
 	mockProcessor.On("Trim", ctx, mock.AnythingOfType("*Entity.Clip")).Return(nil)
@@ -41,7 +41,7 @@ func TestCreateClipUseCase_InvalidTimestamp(t *testing.T) {
 	useCase := UseCase.NewCreateClipUseCase(mockProcessor)
 	ctx := context.Background()
 
-	dummyVideo := Entity.NewVideo("1", "video.mp4", "mp4", 60.0)
+	dummyVideo := Entity.NewVideo("video.mp4", "mp4", 60.0)
 	mockProcessor.On("GetMetadata", ctx, "video.mp4").Return(dummyVideo, nil)
 
 	req := DTO.CreateClipRequest{
